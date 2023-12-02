@@ -1,0 +1,9 @@
+# .npmignore
+node_modules
+tests
+src
+coverage
+
+tsconfig.json
+tsup.config.ts
+jest.config.js
