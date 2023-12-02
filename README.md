@@ -25,13 +25,13 @@ import { Emno } from '@emno/sdk';
 import { EmnoConfig } from '@emno/sdk/types';
 
 const config: EmnoConfig = {
-  token: 'your_token_here',
+  token: 'your_api_key_here',
 };
 
 const emno = new Emno(config);
 ```
 
-| Get your token by logging into the [emno dashboard](https://emno.io) and navigating to the **API** tab.
+| Get your API key by logging into the [emno dashboard](https://emno.io) and navigating to the **API** tab.
 
 ## Collections
 
