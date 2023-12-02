@@ -44,6 +44,9 @@
     "typescript": "^5.2.2",
     "zod": "^3.22.4"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "release-it": {
     "github": {
       "release": true
