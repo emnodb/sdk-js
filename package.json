@@ -2,6 +2,7 @@
   "name": "@emno/sdk",
   "version": "0.1.0",
   "description": "Client SDK to access emno APIs",
+  "homepage": "https://www.emno.io/",
   "repository": {
     "type": "git",
     "url": "https://github.com/emnodb/sdk-js.git"
@@ -22,6 +23,7 @@
     "bundle": "tsup-node",
     "clean": "rm -rf dist",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "release": "release-it",
     "test": "jest . --runInBand --coverage"
   },
   "prettier": {
@@ -30,16 +32,21 @@
     "tabWidth": 2,
     "trailingComma": "es5"
   },
-  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^29.5.6",
     "@types/node": "^20.8.7",
     "jest": "^29.7.0",
     "prettier": "^3.0.3",
+    "release-it": "^17.0.0",
     "ts-jest": "^29.1.1",
     "tsup": "^7.2.0",
     "tsx": "^3.12.2",
     "typescript": "^5.2.2",
     "zod": "^3.22.4"
+  },
+  "release-it": {
+    "github": {
+      "release": true
+    }
   }
 }
