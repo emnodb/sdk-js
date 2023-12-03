@@ -25,7 +25,7 @@ export class Vector {
     this.collectionId = collectionId;
   }
 
-  toString() {
+  toString(): string {
     // Exclude the _client property from the string representation
     const { _client, collectionId, ...rest } = this;
     return JSON.stringify(rest, null, 2);

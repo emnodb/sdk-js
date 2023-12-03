@@ -20,7 +20,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "bundle": "tsup-node",
+    "bundle": "npm run clean && tsup-node",
     "clean": "rm -rf dist",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "release": "release-it",

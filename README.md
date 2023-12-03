@@ -22,9 +22,9 @@ Import and configure the Emno class with your token:
 
 ```typescript
 import { Emno } from '@emno/sdk';
-import { EmnoConfig } from '@emno/sdk/types';
+import { EmnoClientConfig } from '@emno/sdk';
 
-const config: EmnoConfig = {
+const config: EmnoClientConfig = {
   token: 'your_api_key_here',
 };
 

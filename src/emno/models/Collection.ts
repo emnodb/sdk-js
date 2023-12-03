@@ -41,13 +41,13 @@ export class Collection {
     this._client = client;
   }
 
-  toString() {
+  toString(): string {
     // Exclude the _client property from the string representation
     const { _client, ...rest } = this;
     return JSON.stringify(rest, null, 2);
   }
 
-  async update(data: CollectionUpdateType) {
+  async update(data: CollectionUpdateType): Promise<this | undefined> {
     const collectionId = this.id;
     if (!collectionId) {
       throw Error('Uninitialized Collection object');
@@ -70,23 +70,7 @@ export class Collection {
     return this;
   }
 
-  // TODO should we delete object data for the deleted collection?
-  // async delete() {
-  //     const collectionId = this.id;
-  //     if (!collectionId) {
-  //         throw Error('Uninitialized Collection object');
-  //     }
-  //     try {
-  //         const httpResponse = await this._client.deleteCollection(collectionId as string);
-  //         this.populate(httpResponse as CollectionType);
-  //         return this;
-  //     } catch (error) {
-  //         handleAxiosError(error as AxiosError);
-  //     }
-  //     return this;
-  // }
-
-  async count() {
+  async count(): Promise<number | undefined> {
     const collectionId = this.id;
     if (!collectionId) {
       throw Error('Uninitialized Collection object');
@@ -108,7 +92,7 @@ export class Collection {
   }
 
   //get list of vectors
-  async getVectors(ids: string[]) {
+  async getVectors(ids: string[]): Promise<Vector[] | undefined> {
     const collectionId = this.id;
     if (!collectionId) {
       throw Error('Uninitialized Collection object');
@@ -135,7 +119,7 @@ export class Collection {
   }
 
   //get list of vectors
-  async listVectors() {
+  async listVectors(): Promise<Vector[] | undefined> {
     const collectionId = this.id;
     if (!collectionId) {
       throw Error('Uninitialized Collection object');
@@ -159,7 +143,7 @@ export class Collection {
     return response as Vector[];
   }
 
-  async addVectors(data: VectorCreateType[]) {
+  async addVectors(data: VectorCreateType[]): Promise<Vector[] | undefined> {
     const httpResponse = await this._client.addVectors(this.id as string, data);
     if (!httpResponse || httpResponse?.error || !httpResponse.responseData) {
       if (this.emnoConfig.shouldThrow) {
@@ -179,7 +163,7 @@ export class Collection {
     return response;
   }
 
-  async addText(data: VectorCreateTextType[]) {
+  async addText(data: VectorCreateTextType[]): Promise<Vector[] | undefined> {
     const httpResponse = await this._client.addText(this.id as string, data);
     if (!httpResponse || httpResponse?.error || !httpResponse.responseData) {
       if (this.emnoConfig.shouldThrow) {
@@ -200,7 +184,7 @@ export class Collection {
   }
 
   //update vectors
-  async updateVectors(data: VectorUpdateType[]) {
+  async updateVectors(data: VectorUpdateType[]): Promise<Vector[] | undefined> {
     const httpResponse = await this._client.updateVectors(
       this.id as string,
       data
@@ -232,7 +216,7 @@ export class Collection {
   }
 
   //delete vectors by id
-  async deleteVectors(ids: string[]) {
+  async deleteVectors(ids: string[]): Promise<Vector[] | undefined> {
     const httpResponse = await this._client.deleteVectors(this.id as string, {
       ids,
     });
@@ -254,7 +238,7 @@ export class Collection {
     return response;
   }
 
-  async deleteAllVectors() {
+  async deleteAllVectors(): Promise<Vector[] | undefined> {
     const httpResponse = await this._client.deleteVectors(this.id as string, {
       ids: [],
       deleteAll: true,
@@ -278,7 +262,9 @@ export class Collection {
   }
 
   //query collection
-  async queryByVector(data: CollectionQueryType) {
+  async queryByVector(
+    data: CollectionQueryType
+  ): Promise<Vector[][] | undefined> {
     const collectionId = this.id;
     if (!collectionId) {
       throw Error('Uninitialized Collection object');
@@ -308,7 +294,9 @@ export class Collection {
     return response;
   }
 
-  async queryByText(data: CollectionTextQueryType) {
+  async queryByText(
+    data: CollectionTextQueryType
+  ): Promise<Vector[][] | undefined> {
     const collectionId = this.id;
     if (!collectionId) {
       throw Error('Uninitialized Collection object');

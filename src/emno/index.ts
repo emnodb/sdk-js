@@ -8,6 +8,7 @@ import type {
   EmnoClientConfig,
 } from '../types/types';
 import { z } from 'zod';
+import { Collection } from './models/Collection';
 
 export class Emno {
   private _client: EmnoHttpClient;
@@ -30,7 +31,7 @@ export class Emno {
   }
 
   //get list of collections
-  async listCollections() {
+  async listCollections(): Promise<Collection[] | undefined> {
     const httpResponse = await this._client.listCollections();
 
     if (!httpResponse || httpResponse?.error || !httpResponse.responseData) {
@@ -53,7 +54,9 @@ export class Emno {
   }
 
   // create a new collection
-  async createCollection(data: z.infer<typeof CreateCollectionRequestSchema>) {
+  async createCollection(
+    data: z.infer<typeof CreateCollectionRequestSchema>
+  ): Promise<Collection | undefined> {
     const httpResponse = await this._client.createCollection(data);
 
     if (!httpResponse || httpResponse?.error || !httpResponse.responseData) {
@@ -76,7 +79,9 @@ export class Emno {
   }
 
   // get a collection by id
-  async getCollection(collectionIdentifier: string) {
+  async getCollection(
+    collectionIdentifier: string
+  ): Promise<Collection | undefined> {
     const httpResponse = await this._client.getCollection(collectionIdentifier);
 
     if (!httpResponse || httpResponse?.error || !httpResponse.responseData) {
@@ -98,7 +103,9 @@ export class Emno {
     return response;
   }
 
-  async deleteCollection(collectionIdentifier: string) {
+  async deleteCollection(
+    collectionIdentifier: string
+  ): Promise<Collection | undefined> {
     const collection = await this.getCollection(collectionIdentifier);
     if (!collection) {
       throw Error('Uninitialized Collection object');
