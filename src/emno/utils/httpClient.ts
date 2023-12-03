@@ -67,7 +67,10 @@ export class EmnoHttpClient {
         } catch (e2) {
           console.log('Unable to parse error text');
         }
-        errBody = { message: errText };
+        if (response.status === 401) {
+          errText = 'Invalid user or token';
+        }
+        errBody = { message: `${response.status}: ${errText}` };
       }
       return {
         status: response.status,

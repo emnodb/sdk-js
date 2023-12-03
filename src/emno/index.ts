@@ -106,10 +106,6 @@ export class Emno {
   async deleteCollection(
     collectionIdentifier: string
   ): Promise<Collection | undefined> {
-    const collection = await this.getCollection(collectionIdentifier);
-    if (!collection) {
-      throw Error('Uninitialized Collection object');
-    }
     const httpResponse = await this._client.deleteCollection(
       collectionIdentifier as string
     );

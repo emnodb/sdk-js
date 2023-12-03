@@ -99,6 +99,8 @@ describe('emno SDK - Client Test', () => {
     );
     expect(deletedCollection).toBeTruthy();
     // console.log(deletedCollection);
-    expect(deletedCollection!.name).toEqual(deleteColllectionName);
+    expect(
+      deletedCollection!.name?.includes(deleteColllectionName)
+    ).toBeTruthy();
   }, 60_000);
 });

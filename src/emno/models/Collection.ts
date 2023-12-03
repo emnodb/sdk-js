@@ -92,13 +92,17 @@ export class Collection {
   }
 
   //get list of vectors
-  async getVectors(ids: string[]): Promise<Vector[] | undefined> {
+  async getVectors(
+    ids: string[],
+    getValue: boolean = false
+  ): Promise<Vector[] | undefined> {
     const collectionId = this.id;
     if (!collectionId) {
       throw Error('Uninitialized Collection object');
     }
     const httpResponse = await this._client.getVectors(collectionId, {
       ids,
+      includeVectorValues: getValue,
     });
     if (!httpResponse || httpResponse?.error || !httpResponse.responseData) {
       if (this.emnoConfig.shouldThrow) {
@@ -119,12 +123,15 @@ export class Collection {
   }
 
   //get list of vectors
-  async listVectors(): Promise<Vector[] | undefined> {
+  async listVectors(getValue: boolean = false): Promise<Vector[] | undefined> {
     const collectionId = this.id;
     if (!collectionId) {
       throw Error('Uninitialized Collection object');
     }
-    const httpResponse = await this._client.listVectors(collectionId as string);
+    const httpResponse = await this._client.listVectors(
+      collectionId as string,
+      getValue
+    );
     if (!httpResponse || httpResponse?.error || !httpResponse.responseData) {
       if (this.emnoConfig.shouldThrow) {
         throw new Error(
