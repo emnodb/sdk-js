@@ -43,6 +43,12 @@ export function processResponseToVectorList(
   );
 }
 
+export const sliceIntoChunks = <T>(arr: T[], chunkSize: number) => {
+  return Array.from({ length: Math.ceil(arr.length / chunkSize) }, (_, i) =>
+    arr.slice(i * chunkSize, (i + 1) * chunkSize)
+  );
+};
+
 // export function processResponseToToken(responseData: any, client: EmnoHttpClient): z.infer<typeof CreateTokenResponseSchema> {
 //     return new z.infer<typeof CreateTokenResponseSchema>(responseData, client);
 // }

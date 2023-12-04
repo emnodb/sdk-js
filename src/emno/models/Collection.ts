@@ -1,5 +1,5 @@
 import { EmnoHttpClient } from '../utils/httpClient';
-import { processResponseToVectorList } from '../utils/helpers';
+import { processResponseToVectorList, sliceIntoChunks } from '../utils/helpers';
 import { Vector } from './Vector';
 
 import {
@@ -170,7 +170,24 @@ export class Collection {
     return response;
   }
 
-  async addText(data: VectorCreateTextType[]): Promise<Vector[] | undefined> {
+  async addText(
+    data: VectorCreateTextType[],
+    batchSize = 100
+  ): Promise<Vector[] | undefined> {
+    const response: Vector[] = [];
+    const batches = sliceIntoChunks(data, batchSize);
+    for (const batch of batches) {
+      const progress = await this._addText(batch);
+      if (!progress) {
+        // it failed somewhere
+        return;
+      }
+      response.push(...progress);
+    }
+    return response;
+  }
+
+  async _addText(data: VectorCreateTextType[]): Promise<Vector[] | undefined> {
     const httpResponse = await this._client.addText(this.id as string, data);
     if (!httpResponse || httpResponse?.error || !httpResponse.responseData) {
       if (this.emnoConfig.shouldThrow) {
@@ -190,8 +207,27 @@ export class Collection {
     return response;
   }
 
+  async updateVectors(
+    data: VectorUpdateType[],
+    batchSize = 100
+  ): Promise<Vector[] | undefined> {
+    const response: Vector[] = [];
+    const batches = sliceIntoChunks(data, batchSize);
+    for (const batch of batches) {
+      const progress = await this._updateVectors(batch);
+      if (!progress) {
+        // it failed somewhere
+        return;
+      }
+      response.push(...progress);
+    }
+    return response;
+  }
+
   //update vectors
-  async updateVectors(data: VectorUpdateType[]): Promise<Vector[] | undefined> {
+  async _updateVectors(
+    data: VectorUpdateType[]
+  ): Promise<Vector[] | undefined> {
     const httpResponse = await this._client.updateVectors(
       this.id as string,
       data
