@@ -44,6 +44,7 @@ export class EmnoHttpClient {
   private defaultFetchConfig: RequestInit = {
     headers: {
       'Content-Type': 'application/json',
+      Client: 'sdk-js',
     },
   };
 
