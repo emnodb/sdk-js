@@ -1,6 +1,6 @@
 {
   "name": "@emno/sdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Client SDK to access emno APIs",
   "homepage": "https://www.emno.io/",
   "repository": {
