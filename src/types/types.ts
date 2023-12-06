@@ -104,6 +104,7 @@ export const VectorTypeSchema = z.object({
   content: z.string().nonempty(),
   id: z.string().nullable(),
   distance: z.number().optional(),
+  score: z.number().optional(),
 });
 
 export const VectorListResponseSchema = z.array(VectorTypeSchema);

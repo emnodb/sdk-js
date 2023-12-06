@@ -144,6 +144,7 @@ describe('emno SDK - Collection/Vector Tests', () => {
         expect(vec.content).toBeTruthy();
         expect(vec.distance).toBeTruthy();
         expect(vec.id).toBeTruthy();
+        expect(vec.score).toBeTruthy();
       });
     });
   }, 60_000);

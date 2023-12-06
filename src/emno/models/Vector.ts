@@ -8,26 +8,36 @@ export class Vector {
   values?: number[];
   collectionId?: string;
   distance?: number;
-  private _client: EmnoHttpClient;
+  score?: number;
 
   private populate(data: VectorType) {
-    const { id, metadata, content, values, distance } = data;
+    const { id, metadata, content, values, distance, score } = data;
     this.id = id ? id : undefined;
     this.metadata = metadata;
     this.content = content;
     this.values = values ? values : [];
     this.distance = distance;
+    this.score = score;
   }
 
   constructor(data: VectorType, collectionId: string, client: EmnoHttpClient) {
     this.populate(data);
-    this._client = client;
     this.collectionId = collectionId;
   }
 
   toString(): string {
-    // Exclude the _client property from the string representation
-    const { _client, collectionId, ...rest } = this;
-    return JSON.stringify(rest, null, 2);
+    const { id, metadata, content, values, score, distance } = this;
+    return JSON.stringify(
+      {
+        id,
+        metadata,
+        content,
+        values,
+        score,
+        distance,
+      },
+      null,
+      2
+    );
   }
 }

@@ -42,9 +42,8 @@ export class Collection {
   }
 
   toString(): string {
-    // Exclude the _client property from the string representation
-    const { _client, ...rest } = this;
-    return JSON.stringify(rest, null, 2);
+    const { id, name, description, config } = this;
+    return JSON.stringify({ id, name, description, config }, null, 2);
   }
 
   async update(data: CollectionUpdateType): Promise<this | undefined> {
