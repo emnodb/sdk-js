@@ -50,39 +50,102 @@ export class EmnoHttpClient {
 
   async makeAPICall<T>(
     urlPath: string,
-    options: RequestInit
+    options: RequestInit,
+    retries = 3, // Maximum number of retries
+    delayFactor = 1000 // Initial delay factor in milliseconds
   ): Promise<{ responseData?: T; status: number; error?: ErrorBodyExt }> {
     const URL = `${this.baseUrl}${urlPath}`;
-    const response = await fetch(URL, {
-      ...this.defaultFetchConfig,
-      ...options,
-    });
-    if (!response.ok) {
-      let errBody: ErrorBody;
-      let errText = 'Unknown Error';
+
+    for (let attempt = 0; attempt <= retries; attempt++) {
       try {
-        errBody = (await response.json()) as ErrorBody;
-      } catch (e) {
-        try {
-          errText = await response.text();
-        } catch (e2) {
-          console.log('Unable to parse error text');
+        const response = await fetch(URL, {
+          ...this.defaultFetchConfig,
+          ...options,
+        });
+
+        if (!response.ok) {
+          const errItem = await this.parseErrorResponse(response);
+          //   console.log(`Err`, errItem);
+          throw {
+            ...errItem,
+            extra: errItem.extra?.push(`attempt:${attempt}`),
+          };
         }
-        if (response.status === 401) {
-          errText = 'Invalid user or token';
+
+        return {
+          status: response.status,
+          responseData: (await response.json()) as T,
+        };
+      } catch (error: unknown) {
+        if (error && (error as ErrorBodyExt).canRetry) {
+          if (attempt < retries) {
+            // console.log(`retrying, this is attempt#${attempt + 1} `);
+            // Exponential backoff: delayFactor * 2^attempt
+            await this.delay(delayFactor * Math.pow(2, attempt));
+            continue;
+          }
         }
-        errBody = { message: `${response.status}: ${errText}` };
+        return { status: 500, error: error as ErrorBodyExt }; // Return the last error after all retries
       }
-      return {
-        status: response.status,
-        error: { ...errBody, error: true },
-      };
     }
 
-    return {
-      status: response.status,
-      responseData: (await response.json()) as T,
+    // Fallback return in case of unexpected behavior
+    return { status: 500, error: { message: 'Unexpected error', error: true } };
+  }
+
+  private async parseErrorResponse(response: Response): Promise<ErrorBodyExt> {
+    let errBody: ErrorBody;
+
+    const status = response.status;
+    const errorsToRetry: Record<
+      number,
+      { meaning: string; shouldRetry: boolean }
+    > = {
+      408: {
+        meaning: 'Request Timeout',
+        shouldRetry: true,
+      },
+      429: {
+        meaning: 'Too Many Requests',
+        shouldRetry: true,
+      },
+      500: {
+        meaning: 'Internal Server Error',
+        shouldRetry: true,
+      },
+      502: {
+        meaning: 'Bad Gateway',
+        shouldRetry: true,
+      },
+      503: {
+        meaning: 'Service Unavailable',
+        shouldRetry: true,
+      },
+      504: {
+        meaning: 'Gateway Timeout',
+        shouldRetry: true,
+      },
     };
+    let errText = errorsToRetry[status]?.meaning || 'Unknown Error';
+    const canRetry = errorsToRetry[status]?.shouldRetry || false;
+    try {
+      errBody = (await response.json()) as ErrorBody;
+    } catch (e) {
+      try {
+        errText = await response.text();
+      } catch (e2) {
+        console.log('\nUnable to parse error text');
+      }
+      if (status === 401) {
+        errText = 'Invalid user or token';
+      }
+      errBody = { message: `${status}: ${errText}` };
+    }
+    return { ...errBody, error: true, canRetry, extra: [] };
+  }
+
+  private delay(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   async createCollection(

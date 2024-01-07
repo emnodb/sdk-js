@@ -3,6 +3,7 @@ import { z } from 'zod';
 export type EmnoConfig = {
   baseUrl?: string;
   token: string;
+  concurrency?: number;
 };
 
 export type ModelConfig = {
@@ -19,6 +20,8 @@ export type ErrorBody = {
 
 export type ErrorBodyExt = ErrorBody & {
   error: true;
+  canRetry?: boolean;
+  extra?: string[];
 };
 
 export const AlgoEnum = z.enum(['l2', 'ip', 'cosine']);

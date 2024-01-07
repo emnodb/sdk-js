@@ -61,7 +61,12 @@ export class Collection {
           `${httpResponse.status}: ${httpResponse?.error?.message}`
         );
       } else {
-        if (this.emnoConfig.logErrors) console.error(httpResponse.error);
+        if (this.emnoConfig.logErrors) {
+          console.error(
+            `${httpResponse.status}: ${httpResponse?.error?.message}`
+          );
+          console.error(httpResponse.error);
+        }
         return;
       }
     }
@@ -82,11 +87,20 @@ export class Collection {
           `${httpResponse.status}: ${httpResponse?.error?.message}`
         );
       } else {
-        if (this.emnoConfig.logErrors) console.error(httpResponse.error);
+        if (this.emnoConfig.logErrors) {
+          console.error(
+            `${httpResponse.status}: ${httpResponse?.error?.message}`
+          );
+          console.error(httpResponse.error);
+        }
         return;
       }
     }
-    const count = httpResponse.responseData.count;
+    let value = httpResponse.responseData.count;
+    if (typeof value === 'string') {
+      value = parseInt(value);
+    }
+    const count = value;
     return count;
   }
 
@@ -109,7 +123,12 @@ export class Collection {
           `${httpResponse.status}: ${httpResponse?.error?.message}`
         );
       } else {
-        if (this.emnoConfig.logErrors) console.error(httpResponse.error);
+        if (this.emnoConfig.logErrors) {
+          console.error(
+            `${httpResponse.status}: ${httpResponse?.error?.message}`
+          );
+          console.error(httpResponse.error);
+        }
         return;
       }
     }
@@ -137,7 +156,12 @@ export class Collection {
           `${httpResponse.status}: ${httpResponse?.error?.message}`
         );
       } else {
-        if (this.emnoConfig.logErrors) console.error(httpResponse.error);
+        if (this.emnoConfig.logErrors) {
+          console.error(
+            `${httpResponse.status}: ${httpResponse?.error?.message}`
+          );
+          console.error(httpResponse.error);
+        }
         return;
       }
     }
@@ -157,7 +181,12 @@ export class Collection {
           `${httpResponse.status}: ${httpResponse?.error?.message}`
         );
       } else {
-        if (this.emnoConfig.logErrors) console.error(httpResponse.error);
+        if (this.emnoConfig.logErrors) {
+          console.error(
+            `${httpResponse.status}: ${httpResponse?.error?.message}`
+          );
+          console.error(httpResponse.error);
+        }
         return;
       }
     }
@@ -177,7 +206,12 @@ export class Collection {
           `${httpResponse.status}: ${httpResponse?.error?.message}`
         );
       } else {
-        if (this.emnoConfig.logErrors) console.error(httpResponse.error);
+        if (this.emnoConfig.logErrors) {
+          console.error(
+            `${httpResponse.status}: ${httpResponse?.error?.message}`
+          );
+          console.error(httpResponse.error);
+        }
         return;
       }
     }
@@ -201,7 +235,12 @@ export class Collection {
           `${httpResponse.status}: ${httpResponse?.error?.message}`
         );
       } else {
-        if (this.emnoConfig.logErrors) console.error(httpResponse.error);
+        if (this.emnoConfig.logErrors) {
+          console.error(
+            `${httpResponse.status}: ${httpResponse?.error?.message}`
+          );
+          console.error(httpResponse.error);
+        }
         return;
       }
     }
@@ -232,7 +271,12 @@ export class Collection {
           `${httpResponse.status}: ${httpResponse?.error?.message}`
         );
       } else {
-        if (this.emnoConfig.logErrors) console.error(httpResponse.error);
+        if (this.emnoConfig.logErrors) {
+          console.error(
+            `${httpResponse.status}: ${httpResponse?.error?.message}`
+          );
+          console.error(httpResponse.error);
+        }
         return;
       }
     }
@@ -255,7 +299,12 @@ export class Collection {
           `${httpResponse.status}: ${httpResponse?.error?.message}`
         );
       } else {
-        if (this.emnoConfig.logErrors) console.error(httpResponse.error);
+        if (this.emnoConfig.logErrors) {
+          console.error(
+            `${httpResponse.status}: ${httpResponse?.error?.message}`
+          );
+          console.error(httpResponse.error);
+        }
         return;
       }
     }
@@ -285,7 +334,12 @@ export class Collection {
           `${httpResponse.status}: ${httpResponse?.error?.message}`
         );
       } else {
-        if (this.emnoConfig.logErrors) console.error(httpResponse.error);
+        if (this.emnoConfig.logErrors) {
+          console.error(
+            `${httpResponse.status}: ${httpResponse?.error?.message}`
+          );
+          console.error(httpResponse.error);
+        }
         return;
       }
     }
@@ -317,7 +371,12 @@ export class Collection {
           `${httpResponse.status}: ${httpResponse?.error?.message}`
         );
       } else {
-        if (this.emnoConfig.logErrors) console.error(httpResponse.error);
+        if (this.emnoConfig.logErrors) {
+          console.error(
+            `${httpResponse.status}: ${httpResponse?.error?.message}`
+          );
+          console.error(httpResponse.error);
+        }
         return;
       }
     }

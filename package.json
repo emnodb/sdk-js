@@ -19,11 +19,11 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
-    "bundle": "npm run clean && tsup-node",
+    "build": "npm run clean && tsup-node",
+    "build:tsc": "tsc",
     "clean": "rm -rf dist",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "release": "release-it",
+    "release": "npm run build && release-it",
     "test": "jest . --runInBand --coverage"
   },
   "prettier": {
