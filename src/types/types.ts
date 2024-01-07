@@ -19,6 +19,8 @@ export type ErrorBody = {
 
 export type ErrorBodyExt = ErrorBody & {
   error: true;
+  canRetry?: boolean;
+  extra?: string[];
 };
 
 export const AlgoEnum = z.enum(['l2', 'ip', 'cosine']);
