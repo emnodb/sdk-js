@@ -3,7 +3,6 @@ import { z } from 'zod';
 export type EmnoConfig = {
   baseUrl?: string;
   token: string;
-  concurrency?: number;
 };
 
 export type ModelConfig = {
