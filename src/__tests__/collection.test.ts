@@ -122,6 +122,18 @@ describe('emno SDK - Collection/Vector Tests', () => {
     expect(vectors!.length).toBe(vectorsMap.size);
   }, 30_000);
 
+  it('should paginate vectors successfully', async () => {
+    const collection = Array.from(collectionMap.values())[0];
+    if (!collection) {
+      throw Error('Unable to get Collection');
+    }
+    const vectorIdArray = Array.from(vectorsMap.keys());
+    const vectors = await collection.listVectors(false, 1, 1);
+    expect(vectors).toBeDefined();
+    expect(vectors!.length).toBe(1);
+    expect(vectors![0].id).toBe(vectorIdArray[1]);
+  }, 30_000);
+
   it('should query a collection successfully', async () => {
     const collection = Array.from(collectionMap.values())[0];
     if (!collection) {

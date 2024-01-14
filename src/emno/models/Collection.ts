@@ -141,14 +141,20 @@ export class Collection {
   }
 
   //get list of vectors
-  async listVectors(getValue: boolean = false): Promise<Vector[] | undefined> {
+  async listVectors(
+    getValue: boolean = false,
+    offset: number = 0,
+    limit: number = 10
+  ): Promise<Vector[] | undefined> {
     const collectionId = this.id;
     if (!collectionId) {
       throw Error('Uninitialized Collection object');
     }
     const httpResponse = await this._client.listVectors(
       collectionId as string,
-      getValue
+      getValue,
+      offset,
+      limit
     );
     if (!httpResponse || httpResponse?.error || !httpResponse.responseData) {
       if (this.emnoConfig.shouldThrow) {

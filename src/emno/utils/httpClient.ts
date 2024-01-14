@@ -226,10 +226,15 @@ export class EmnoHttpClient {
     );
   }
 
-  async listVectors(collectionId: string, includeVectorValues = false) {
+  async listVectors(
+    collectionId: string,
+    includeVectorValues = false,
+    page = 0,
+    limit = 10
+  ) {
     const requestOptions: RequestInit = {
       method: 'POST',
-      body: JSON.stringify({ includeVectorValues }),
+      body: JSON.stringify({ includeVectorValues, page, limit }),
     };
     return await this.makeAPICall<z.infer<typeof VectorListResponseSchema>>(
       `/collections/${collectionId}/vectors/getAll`,
