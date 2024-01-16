@@ -157,11 +157,13 @@ export const UpdateVectorListSchema = z.object({
 export const QueryVectorListSchema = z.object({
   vectors: z.array(VectorSchema),
   limit: z.number().optional(),
+  metadata: z.any().optional(),
 });
 
 export const QueryVectorByTextListSchema = z.object({
   content: z.array(z.string().nonempty()),
   topK: z.number().optional(),
+  metadata: z.any().optional(),
 });
 
 export const QueryVectorListResponseSchema = z.array(
@@ -254,11 +256,13 @@ export interface VectorDeleteResponseType {
 export interface CollectionQueryType {
   vectors: number[][];
   limit?: number;
+  metadata?: unknown;
 }
 
 export interface CollectionTextQueryType {
   content: string[];
   topK?: number;
+  metadata?: unknown;
 }
 
 export const CreateTokenRequestSchema = z.object({

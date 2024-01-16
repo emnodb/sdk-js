@@ -134,6 +134,23 @@ describe('emno SDK - Collection/Vector Tests', () => {
     expect(vectors![0].id).toBe(vectorIdArray[1]);
   }, 30_000);
 
+  it('should search using metadata vectors successfully', async () => {
+    const collection = Array.from(collectionMap.values())[0];
+    if (!collection) {
+      throw Error('Unable to get Collection');
+    }
+    const vectorIdArray = Array.from(vectorsMap.keys());
+    const queryVectorArray: CollectionTextQueryType = {
+      content: ['Search algorithms like KNN'],
+      topK: 2,
+      metadata: { sampleValue2: 'newSampleKey2' },
+    };
+    const vectors = await collection.queryByText(queryVectorArray);
+    expect(vectors).toBeDefined();
+    expect(vectors!.length).toBe(1);
+    expect(vectors![0][0].id).toBe(vectorIdArray[2]);
+  }, 30_000);
+
   it('should query a collection successfully', async () => {
     const collection = Array.from(collectionMap.values())[0];
     if (!collection) {
