@@ -10,7 +10,6 @@ import {
 const TOKEN = process.env.DEV_TOKEN || '';
 const config: EmnoConfig = {
   token: TOKEN,
-  baseUrl: 'http://localhost:4000',
 };
 
 const textContent = [
