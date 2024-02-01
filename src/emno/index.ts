@@ -6,6 +6,8 @@ import {
 import type {
   CreateCollectionRequestSchema,
   EmnoClientConfig,
+  OpenAIChatRequestSchema,
+  OpenAIChatResponseSchema,
 } from '../types/types';
 import { z } from 'zod';
 import { Collection } from './models/Collection';
@@ -28,6 +30,26 @@ export class Emno {
       token: config.token,
     });
     this.config = config;
+  }
+
+  // chat completions
+  async openAIChatCompletions(
+    data: z.infer<typeof OpenAIChatRequestSchema>
+  ): Promise<z.infer<typeof OpenAIChatResponseSchema> | undefined> {
+    const httpResponse = await this._client.openAIChatCompletions(data);
+
+    if (!httpResponse || httpResponse?.error || !httpResponse.responseData) {
+      if (this.shouldThrow) {
+        throw new Error(
+          `${httpResponse.status}: ${httpResponse?.error?.message}`
+        );
+      } else {
+        if (this.logErrors) console.error(httpResponse.error);
+        return;
+      }
+    }
+
+    return httpResponse.responseData;
   }
 
   //get list of collections

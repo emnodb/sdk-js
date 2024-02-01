@@ -103,4 +103,24 @@ describe('emno SDK - Client Test', () => {
       deletedCollection!.name?.includes(deleteColllectionName)
     ).toBeTruthy();
   }, 60_000);
+
+  it('should perform chat', async () => {
+    const emno = new Emno(config);
+
+    const data = {
+      messages: [
+        {
+          content:
+            "What is the best item on the menu for locals? Context: the best is butterchicken but locals favor daal-tadka as well. Interesting mix is the addition of butter milk which you don't find in this part of the country",
+          role: 'user',
+        },
+      ],
+    };
+
+    // chat completion
+    const chatResponse = await emno.openAIChatCompletions(data);
+    expect(chatResponse).toBeTruthy();
+    // console.log(deletedCollection);
+    expect(chatResponse!.message?.content.includes('tadka')).toBeTruthy();
+  }, 60_000);
 });
