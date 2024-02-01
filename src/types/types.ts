@@ -296,3 +296,20 @@ export const DeletedTokenRequestSchema = z.object({
 export const DeletedTokenResponseSchema = z.array(BasicTokenResponseSchema);
 
 export const GetAllTokenResponseSchema = z.array(TokenResponseSchema);
+
+export const OpenAIChatRequestSchema = z.object({
+  messages: z.array(
+    z.object({
+      role: z.string(),
+      content: z.string(),
+    })
+  ),
+  model: z.string().optional(),
+});
+
+export const OpenAIChatResponseSchema = z.object({
+  message: z.object({
+    role: z.string(),
+    content: z.string(),
+  }),
+});

@@ -12,6 +12,8 @@ import type {
   ErrorBodyExt,
   GetAllCollectionResponseSchema,
   GetVectorListRequestSchema,
+  OpenAIChatRequestSchema,
+  OpenAIChatResponseSchema,
   QueryVectorByTextListSchema,
   QueryVectorListResponseSchema,
   QueryVectorListSchema,
@@ -320,5 +322,16 @@ export class EmnoHttpClient {
     return await this.makeAPICall<
       z.infer<typeof QueryVectorListResponseSchema>
     >(`/collections/${collectionId}/query/text`, requestOptions);
+  }
+
+  async openAIChatCompletions(data: z.infer<typeof OpenAIChatRequestSchema>) {
+    const requestOptions: RequestInit = {
+      method: 'POST',
+      body: JSON.stringify(data),
+    };
+    return await this.makeAPICall<z.infer<typeof OpenAIChatResponseSchema>>(
+      `/openai/completions`,
+      requestOptions
+    );
   }
 }
